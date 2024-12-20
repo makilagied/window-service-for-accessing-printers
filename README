@@ -1,0 +1,130 @@
+# Receipt Service
+
+This project implements a Python-based Flask application to handle receipt generation. The service accepts data through an API endpoint, generates a receipt text file, and saves it in the user's Downloads folder. It can also run as a Windows Service for continuous operation.
+
+---
+
+## Features
+
+- Generates a receipt text file from provided data.
+- Saves the receipt in the Downloads folder.
+- Exposes an HTTP endpoint for receipt generation.
+- Can run as a Windows Service.
+- Includes logging and error handling for debugging.
+
+---
+
+## Requirements
+
+- Python 3.13 or later
+- pip
+
+### Python Libraries
+
+Install the required libraries using pip:
+```bash
+pip install flask fpdf pywin32
+```
+
+---
+
+## Installation and Usage
+
+### Running as an Application
+
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd efd-printer
+   ```
+
+2. **Run the Flask Application**:
+   ```bash
+   python receipt_service.py
+   ```
+
+3. **Send a Test Request**:
+   Use a tool like Postman or cURL to send a POST request to the API:
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d '{"customer_name": "John Doe", "total_amount": "100.00", "email": "johndoe@example.com"}' http://localhost:7860/run-receipt-script
+   ```
+
+4. **Verify the Receipt**:
+   The receipt file will be saved in your Downloads folder as `receipt.txt`.
+
+---
+
+### Running as a Windows Service
+
+1. **Install the Service**:
+   ```bash
+   python receipt_service.py install
+   ```
+
+2. **Start the Service**:
+   ```bash
+   python receipt_service.py start
+   ```
+
+3. **Stop the Service**:
+   ```bash
+   python receipt_service.py stop
+   ```
+
+4. **Uninstall the Service**:
+   ```bash
+   python receipt_service.py remove
+   ```
+
+---
+
+## Project Structure
+
+```
+.
+├── receipt_service.py   # Main application file
+├── requirements.txt     # Python dependencies
+├── README.md            # Project documentation
+```
+
+---
+
+## API Endpoints
+
+### POST `/run-receipt-script`
+
+#### Request Body:
+```json
+{
+  "customer_name": "string",
+  "total_amount": "string",
+  "email": "string"
+}
+```
+
+#### Response:
+- **200 OK**: Receipt successfully created.
+- **400 Bad Request**: Invalid input.
+- **500 Internal Server Error**: Failed to create receipt.
+
+---
+
+## Debugging
+
+- Use `print` statements or logging in `receipt_service.py` to troubleshoot issues.
+- Verify that the Downloads folder path is resolved correctly.
+
+---
+
+## Notes
+
+- Ensure the Python script has the necessary permissions to write to the Downloads folder.
+- Running as a Windows Service requires Administrator privileges.
+- Modify the `get_downloads_folder()` function if the Downloads path needs customization.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
