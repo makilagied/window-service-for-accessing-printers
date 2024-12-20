@@ -14,6 +14,7 @@ from email import encoders
 from flask import Flask, request, jsonify
 import threading
 from pathlib import Path
+from flask_cors import CORS
 
 
 # Function to get the Downloads directory path
@@ -128,6 +129,7 @@ def PrintReceipt(data):
 
 # Flask Setup
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def root():
@@ -137,7 +139,9 @@ def root():
 @app.route('/run-receipt-script', methods=['POST'])
 def run_receipt_script():
     try:
-        data = request.json
+        data = request.json  # Parse JSON data
+        print(data)
+
         if not data:
             return jsonify({"error": "No data provided"}), 400
         
