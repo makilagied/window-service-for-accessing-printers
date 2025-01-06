@@ -119,8 +119,8 @@ def PrintReceipt(data):
                 print(f"Failed to send email: {e}")
 
         # Clean up temporary files
-        os.remove(receipt_text_file)
-        os.remove(pdf_output_file)
+        # os.remove(receipt_text_file)
+        # os.remove(pdf_output_file)
 
     except Exception as e:
         print(f"Error in PrintReceipt: {e}")
