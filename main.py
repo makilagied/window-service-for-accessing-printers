@@ -1,5 +1,6 @@
 import os
 import win32print
+import win32api
 import tempfile
 import win32ui
 from openpyxl import load_workbook
@@ -63,14 +64,77 @@ def update_excel_with_data(data):
         print(f"Error updating Excel file: {e}")
         raise
 
-# Function to print the updated Excel file
+
+# def print_excel_file(file_path, printer_name=None):
+#     try:
+#         print(f"Attempting to print only the first sheet of: {file_path}")
+
+#         # Check if the file exists
+#         if not os.path.exists(file_path):
+#             raise FileNotFoundError(f"Excel file not found for printing at path: {file_path}")
+
+#         # Load the Excel workbook and select the first sheet
+#         workbook = load_workbook(file_path)
+#         first_sheet = workbook.active  # The first sheet is active by default
+
+#         # Save the first sheet as a temporary file
+#         temp_dir = tempfile.gettempdir()
+#         temp_file_path = os.path.join(temp_dir, "temp_first_sheet.xlsx")
+#         workbook_new = load_workbook(file_path)
+#         workbook_new.remove(workbook_new.active)  # Remove existing sheets
+#         workbook_new.create_sheet(first_sheet.title)  # Create a new sheet
+#         for row in first_sheet.iter_rows(values_only=True):
+#             workbook_new[first_sheet.title].append(row)  # Copy content
+#         workbook_new.save(temp_file_path)
+
+#         # Select printer
+#         if not printer_name:
+#             print("No printer specified. Fetching default printer.")
+#             printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)
+#             if printers:
+#                 printer_name = printers[0][2]  # Select the first available printer
+#                 print(f"Default printer selected: {printer_name}")
+#             else:
+#                 raise Exception("No printers available.")
+#         else:
+#             print(f"Using specified printer: {printer_name}")
+
+#         # Print the temporary Excel file using default application
+#         win32api.ShellExecute(
+#             0,
+#             "printto",
+#             temp_file_path,
+#             f'"{printer_name}"',
+#             ".",
+#             0
+#         )
+
+#         print(f"First sheet of '{file_path}' sent to printer: {printer_name}")
+
+#     except Exception as e:
+#         print(f"Error printing Excel file: {e}")
+#         raise
+
+
 def print_excel_file(file_path, printer_name=None):
     try:
-        print(f"Attempting to print file: {file_path}")
+        print(f"Attempting to print the first sheet of: {file_path}")
 
         # Check if the file exists
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Excel file not found for printing at path: {file_path}")
+
+        # Save the first sheet as a standalone Excel file (if needed)
+        temp_dir = tempfile.gettempdir()
+        temp_file_path = os.path.join(temp_dir, "temp_first_sheet.xlsx")
+        workbook = load_workbook(file_path)
+        first_sheet = workbook.active  # Get the first sheet
+        new_workbook = load_workbook(file_path)
+        new_workbook.remove(new_workbook.active)  # Remove all sheets
+        new_workbook.create_sheet(first_sheet.title)  # Add the first sheet back
+        for row in first_sheet.iter_rows():
+            new_workbook[first_sheet.title].append([cell.value for cell in row])
+        new_workbook.save(temp_file_path)
 
         # Select printer
         if not printer_name:
@@ -84,76 +148,27 @@ def print_excel_file(file_path, printer_name=None):
         else:
             print(f"Using specified printer: {printer_name}")
 
-        # Verify printer is available
-        printer_info = win32print.GetPrinter(win32print.OpenPrinter(printer_name))
-        if not printer_info:
-            raise Exception(f"Printer '{printer_name}' is not available or offline.")
+        # Print the Excel file with all formatting using the default application
+        win32api.ShellExecute(
+            0,
+            "printto",
+            temp_file_path,
+            f'"{printer_name}"',
+            ".",
+            0
+        )
 
-        # Use win32print to send a file to the printer (Excel method is replaced)
-        hPrinter = win32print.OpenPrinter(printer_name)
-        printer_job = win32print.StartDocPrinter(hPrinter, 1, ("Excel Print Job", None, "RAW"))
-        win32print.StartPagePrinter(hPrinter)
-        win32print.WritePrinter(hPrinter, open(file_path, "rb").read())
-        win32print.EndPagePrinter(hPrinter)
-        win32print.EndDocPrinter(hPrinter)
-        win32print.ClosePrinter(hPrinter)
-
-        print(f"File '{file_path}' sent to printer: {printer_name}")
+        print(f"First sheet of '{file_path}' sent to printer: {printer_name}")
 
     except Exception as e:
         print(f"Error printing Excel file: {e}")
         raise
 
 
-
-# def print_text_file(content, printer_name=None):
-#     try:
-#         # Create a temporary TXT file
-#         temp_dir = tempfile.gettempdir()
-#         temp_file_path = os.path.join(temp_dir, "temp_print_file.txt")
-        
-#         with open(temp_file_path, "w", encoding="utf-8") as temp_file:
-#             temp_file.write(content)
-        
-#         print(f"Text file created at: {temp_file_path}")
-
-#         # Set the default printer if not specified
-#         if not printer_name:
-#             printer_name = win32print.GetDefaultPrinter()
-#             print(f"Using default printer: {printer_name}")
-#         else:
-#             print(f"Using specified printer: {printer_name}")
-
-#         # Open the printer
-#         hPrinter = win32print.OpenPrinter(printer_name)
-#         try:
-#             # Start a print job
-#             job_name = "Text File Print Job"
-#             hJob = win32print.StartDocPrinter(hPrinter, 1, (job_name, None, "RAW"))
-#             win32print.StartPagePrinter(hPrinter)
-
-#             # Read the TXT file and send it to the printer
-#             with open(temp_file_path, "rb") as temp_file:
-#                 data = temp_file.read()
-#                 win32print.WritePrinter(hPrinter, data)
-
-#             win32print.EndPagePrinter(hPrinter)
-#             win32print.EndDocPrinter(hPrinter)
-#             print(f"Text file printed successfully on {printer_name}.")
-#         finally:
-#             win32print.ClosePrinter(hPrinter)
-
-#         # Cleanup temporary file
-#         # os.remove(temp_file_path)
-#         print("Temporary text file deleted.")
-#     except Exception as e:
-#         print(f"Error printing text file: {e}")
-#         raise
-
-
 def list_printers():
     printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)
     for printer in printers:
+        print("Available Printers") 
         print(printer[2])  # Printer name
 
 
@@ -163,6 +178,7 @@ CORS(app)
 
 @app.route('/run-receipt-script', methods=['POST'])
 def run_invoice_script():
+    list_printers()
     try:
         print("Received request for invoice processing.")
         data = request.json
@@ -171,8 +187,7 @@ def run_invoice_script():
             return jsonify({"error": "No data provided"}), 400
         
 
-        list_printers()
-
+        
         print(f"Request data: {data}")
         # Process Excel file
         updated_excel_path = update_excel_with_data(data)
