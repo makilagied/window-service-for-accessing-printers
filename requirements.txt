@@ -1,0 +1,8 @@
+Flask==2.3.3
+flask-cors==3.0.10
+openpyxl==3.1.2
+fpdf==1.7.2
+pywin32==306
+
+
+# pip install -r requirements.txt
