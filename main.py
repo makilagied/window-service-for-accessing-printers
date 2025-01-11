@@ -13,6 +13,8 @@ from email import encoders
 from flask import Flask, request, jsonify
 from pathlib import Path
 from flask_cors import CORS
+from openpyxl.drawing.image import Image
+
 
 # Function to get the Downloads directory path
 def get_downloads_folder():
@@ -28,6 +30,44 @@ def get_downloads_folder():
         raise
 
 # Function to process Excel template
+# def update_excel_with_data(data):
+#     try:
+#         print("Starting Excel file update process.")
+#         template_path = "invoice.xlsx"  # Path to the Excel template
+#         if not os.path.exists(template_path):
+#             raise FileNotFoundError("Invoice template not found.")
+#         print(f"Using template: {template_path}")
+
+#         # Load the workbook and keep formatting
+#         workbook = load_workbook(template_path)
+#         sheet = workbook.active
+
+#         # Update specified cells with data
+#         sheet["F8"] = data.get("trade_date", "N/A")
+#         sheet["F9"] = data.get("order_number", "N/A")
+#         sheet["B18"] = data.get("client", "N/A")
+#         sheet["E25"] = data.get("subtotal", 0)
+#         sheet["F27"] = data.get("brokerage", 0)
+#         sheet["F28"] = data.get("dse", 0)
+#         sheet["F29"] = data.get("cmsa", 0)
+#         sheet["F30"] = data.get("cds", 0)
+#         sheet["F31"] = data.get("fidelity", 0)
+#         sheet["F34"] = data.get("subtotal", 0)
+#         sheet["F35"] = data.get("vat", 0)
+#         sheet["F37"] = data.get("total_fees", 0)
+
+#         # Save the updated file
+#         workbook.save(template_path)
+#         workbook.close()
+#         print(f"Excel file updated successfully at: {template_path}")
+#         return template_path
+#     except Exception as e:
+#         print(f"Error updating Excel file: {e}")
+#         raise
+
+
+
+
 def update_excel_with_data(data):
     try:
         print("Starting Excel file update process.")
@@ -36,8 +76,22 @@ def update_excel_with_data(data):
             raise FileNotFoundError("Invoice template not found.")
         print(f"Using template: {template_path}")
 
+        # Load the workbook and keep formatting
         workbook = load_workbook(template_path)
         sheet = workbook.active
+
+        # Insert image into cells B2 to B6
+        # logo_path = "logo.png"  # Path to the logo image
+        # if os.path.exists(logo_path):
+        #     # Create an Image object
+        #     img = Image(logo_path)
+        #     # Set the image width and height (optional, adjust as necessary)
+        #     img.width = 180
+        #     img.height = 100
+        #     # Position the image at cell B2 (adjust the cell if needed)
+        #     sheet.add_image(img, "B2")
+        # else:
+        #     print(f"Logo image not found at {logo_path}")
 
         # Update specified cells with data
         sheet["F8"] = data.get("trade_date", "N/A")
@@ -54,37 +108,18 @@ def update_excel_with_data(data):
         sheet["F37"] = data.get("total_fees", 0)
 
         # Save the updated file
-        downloads_folder = get_downloads_folder()
-        updated_excel_path = os.path.join(downloads_folder, "updated_invoice.xlsx")
-        workbook.save(updated_excel_path)
+        workbook.save(template_path)
         workbook.close()
-        print(f"Updated Excel file saved at: {updated_excel_path}")
-        return updated_excel_path
+        print(f"Excel file updated successfully at: {template_path}")
+        return template_path
     except Exception as e:
         print(f"Error updating Excel file: {e}")
         raise
 
 
-
 def print_excel_file(file_path, printer_name=None):
     try:
-        print(f"Attempting to print the first sheet of: {file_path}")
-
-        # Check if the file exists
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Excel file not found for printing at path: {file_path}")
-
-        # Save the first sheet as a standalone Excel file (if needed)
-        temp_dir = tempfile.gettempdir()
-        temp_file_path = os.path.join(temp_dir, "temp_first_sheet.xlsx")
-        workbook = load_workbook(file_path)
-        first_sheet = workbook.active  # Get the first sheet
-        new_workbook = load_workbook(file_path)
-        new_workbook.remove(new_workbook.active)  # Remove all sheets
-        new_workbook.create_sheet(first_sheet.title)  # Add the first sheet back
-        for row in first_sheet.iter_rows():
-            new_workbook[first_sheet.title].append([cell.value for cell in row])
-        new_workbook.save(temp_file_path)
+        print(f"Printing the Excel file: {file_path}")
 
         # Select printer
         if not printer_name:
@@ -102,14 +137,13 @@ def print_excel_file(file_path, printer_name=None):
         win32api.ShellExecute(
             0,
             "printto",
-            temp_file_path,
+            file_path,
             f'"{printer_name}"',
             ".",
             0
         )
 
-        print(f"First sheet of '{file_path}' sent to printer: {printer_name}")
-
+        print(f"Excel file '{file_path}' sent to printer: {printer_name}")
     except Exception as e:
         print(f"Error printing Excel file: {e}")
         raise
@@ -117,8 +151,8 @@ def print_excel_file(file_path, printer_name=None):
 
 def list_printers():
     printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)
+    print("Available Printers") 
     for printer in printers:
-        print("Available Printers") 
         print(printer[2])  # Printer name
 
 
@@ -144,6 +178,9 @@ def run_invoice_script():
 
         # Print the Excel file
         print_excel_file(updated_excel_path, data.get("printer_name", None))
+        # print_excel_file(updated_excel_path, "Incotex")
+
+        
 
         # Send email with the Excel file
         # send_email_with_attachment(data, updated_excel_path)
