@@ -14,6 +14,9 @@ from flask import Flask, request, jsonify
 from pathlib import Path
 from flask_cors import CORS
 from openpyxl.drawing.image import Image
+from openpyxl.styles import Alignment
+from datetime import datetime
+
 
 
 # Function to get the Downloads directory path
@@ -29,43 +32,15 @@ def get_downloads_folder():
         print(f"Error getting downloads folder: {e}")
         raise
 
-# Function to process Excel template
-# def update_excel_with_data(data):
-#     try:
-#         print("Starting Excel file update process.")
-#         template_path = "invoice.xlsx"  # Path to the Excel template
-#         if not os.path.exists(template_path):
-#             raise FileNotFoundError("Invoice template not found.")
-#         print(f"Using template: {template_path}")
 
-#         # Load the workbook and keep formatting
-#         workbook = load_workbook(template_path)
-#         sheet = workbook.active
-
-#         # Update specified cells with data
-#         sheet["F8"] = data.get("trade_date", "N/A")
-#         sheet["F9"] = data.get("order_number", "N/A")
-#         sheet["B18"] = data.get("client", "N/A")
-#         sheet["E25"] = data.get("subtotal", 0)
-#         sheet["F27"] = data.get("brokerage", 0)
-#         sheet["F28"] = data.get("dse", 0)
-#         sheet["F29"] = data.get("cmsa", 0)
-#         sheet["F30"] = data.get("cds", 0)
-#         sheet["F31"] = data.get("fidelity", 0)
-#         sheet["F34"] = data.get("subtotal", 0)
-#         sheet["F35"] = data.get("vat", 0)
-#         sheet["F37"] = data.get("total_fees", 0)
-
-#         # Save the updated file
-#         workbook.save(template_path)
-#         workbook.close()
-#         print(f"Excel file updated successfully at: {template_path}")
-#         return template_path
-#     except Exception as e:
-#         print(f"Error updating Excel file: {e}")
-#         raise
-
-
+def format_number(value):
+    try:
+        # Convert the value to a float (if possible), then format it
+        value = float(value)
+        return f"{value:,.2f}"  # Format number with thousand separators
+    except ValueError:
+        # If conversion fails, return 0 formatted
+        return "0.00"
 
 
 def update_excel_with_data(data):
@@ -97,15 +72,19 @@ def update_excel_with_data(data):
         sheet["F8"] = data.get("trade_date", "N/A")
         sheet["F9"] = data.get("order_number", "N/A")
         sheet["B18"] = data.get("client", "N/A")
-        sheet["E25"] = data.get("subtotal", 0)
-        sheet["F27"] = data.get("brokerage", 0)
-        sheet["F28"] = data.get("dse", 0)
-        sheet["F29"] = data.get("cmsa", 0)
-        sheet["F30"] = data.get("cds", 0)
-        sheet["F31"] = data.get("fidelity", 0)
-        sheet["F34"] = data.get("subtotal", 0)
-        sheet["F35"] = data.get("vat", 0)
-        sheet["F37"] = data.get("total_fees", 0)
+        sheet["E25"] = format_number(data.get("consideration", 0))
+        sheet["F27"] = format_number(data.get("brokerage", 0))
+        sheet["F28"] = format_number(data.get("dse", 0))
+        sheet["F29"] = format_number(data.get("cmsa", 0))
+        sheet["F30"] = format_number(data.get("cds", 0))
+        sheet["F31"] = format_number(data.get("fidelity", 0))
+        sheet["F34"] = format_number(data.get("subtotal", 0))
+        sheet["F35"] = format_number(data.get("vat", 0))
+        sheet["F37"] = format_number(data.get("total_fees", 0))
+
+        # Set alignment to right for the above cells
+        for cell in ["E25", "F27", "F28", "F29", "F30", "F31", "F34", "F35", "F37"]:
+            sheet[cell].alignment = Alignment(horizontal="right")
 
         # Save the updated file
         workbook.save(template_path)
