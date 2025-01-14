@@ -71,7 +71,11 @@ def update_excel_with_data(data):
         # Update specified cells with data
         sheet["F8"] = data.get("trade_date", "N/A")
         sheet["F9"] = data.get("order_number", "N/A")
-        sheet["B18"] = data.get("client", "N/A")
+        sheet["B18"] = data.get("client", "")
+        sheet["B19"] = data.get("district", "")
+        sheet["B20"] = data.get("region", "Dar es Salaam")
+        sheet["B21"] = data.get("tin", "")
+        sheet["B22"] = data.get("vrn", "")
         sheet["E25"] = format_number(data.get("consideration", 0))
         sheet["F27"] = format_number(data.get("brokerage", 0))
         sheet["F28"] = format_number(data.get("dse", 0))
