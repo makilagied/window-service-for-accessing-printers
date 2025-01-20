@@ -1,0 +1,24 @@
+2025-01-20 11:17:45,770 - INFO - Starting Flask server...
+2025-01-20 11:17:45,863 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:7860
+ * Running on http://10.10.102.23:7860
+2025-01-20 11:17:45,863 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-20 11:17:45,864 - INFO -  * Restarting with stat
+2025-01-20 11:17:47,084 - INFO - Starting Flask server...
+2025-01-20 11:17:47,106 - WARNING -  * Debugger is active!
+2025-01-20 11:17:47,114 - INFO -  * Debugger PIN: 139-102-619
+2025-01-20 11:19:29,079 - INFO - 127.0.0.1 - - [20/Jan/2025 11:19:29] "OPTIONS /run-receipt-script HTTP/1.1" 200 -
+2025-01-20 11:19:29,330 - INFO - Available Printers
+2025-01-20 11:19:29,330 - INFO - NPICBAE8E
+2025-01-20 11:19:29,330 - INFO - Incotex
+2025-01-20 11:19:29,330 - INFO - Received request for invoice processing.
+2025-01-20 11:19:29,330 - INFO - Request data: {'consideration': '1000000', 'subtotal': 24800, 'vat': '4464', 'cds': '0', 'brokerage': '24800', 'client': 'ERICK DICKSON MAKILAGI', 'district': 'LINDI CBD', 'region': 'LINDI', 'tin': 'TIN NO:123451212', 'cmsa': '0', 'dse': '0', 'fidelity': '0', 'order_number': 'BOT/2025/1', 'total_fees': '29264', 'trade_date': '2025-01-02', 'printer_name': 'Incotex'}
+2025-01-20 11:19:29,330 - INFO - Starting Excel file update process.
+2025-01-20 11:19:29,331 - INFO - Using template: C:\Users\ERICK~1.MAK\AppData\Local\Temp\_MEI257602\invoice.xlsx
+2025-01-20 11:19:29,439 - INFO - Excel file updated successfully at: C:\Users\ERICK~1.MAK\AppData\Local\Temp\_MEI257602\invoice.xlsx
+2025-01-20 11:19:29,439 - INFO - Printing the Excel file: C:\Users\ERICK~1.MAK\AppData\Local\Temp\_MEI257602\invoice.xlsx
+2025-01-20 11:19:29,439 - INFO - Using specified printer: Incotex
+2025-01-20 11:19:29,670 - INFO - Excel file 'C:\Users\ERICK~1.MAK\AppData\Local\Temp\_MEI257602\invoice.xlsx' sent to printer: Incotex
+2025-01-20 11:19:29,670 - INFO - Invoice processing completed successfully.
+2025-01-20 11:19:29,670 - INFO - 127.0.0.1 - - [20/Jan/2025 11:19:29] "POST /run-receipt-script HTTP/1.1" 200 -

@@ -7,3 +7,4 @@ Pillow==11.1.0
 
 
 # pip install -r requirements.txt
+#  pyinstaller --onefile --add-data "invoice.xlsx;." --add-data "logo.png;." efd_print.py 

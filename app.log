@@ -1,0 +1,55 @@
+2025-01-20 10:11:17,102 - INFO - Starting Flask server...
+2025-01-20 10:11:17,407 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:7860
+ * Running on http://10.10.102.23:7860
+2025-01-20 10:11:17,407 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-20 10:11:17,416 - INFO -  * Restarting with stat
+2025-01-20 10:11:19,109 - INFO - Starting Flask server...
+2025-01-20 10:11:19,172 - WARNING -  * Debugger is active!
+2025-01-20 10:11:19,181 - INFO -  * Debugger PIN: 813-101-750
+2025-01-20 10:17:08,976 - INFO -  * Detected change in 'D:\\efd-printer\\efd_print.py', reloading
+2025-01-20 10:17:09,063 - INFO -  * Restarting with stat
+2025-01-20 10:17:10,684 - INFO - Starting Flask server...
+2025-01-20 10:17:10,755 - WARNING -  * Debugger is active!
+2025-01-20 10:17:10,763 - INFO -  * Debugger PIN: 813-101-750
+2025-01-20 10:23:23,294 - INFO - 127.0.0.1 - - [20/Jan/2025 10:23:23] "OPTIONS /run-receipt-script HTTP/1.1" 200 -
+2025-01-20 10:23:23,558 - INFO - Available Printers
+2025-01-20 10:23:23,559 - INFO - NPICBAE8E
+2025-01-20 10:23:23,559 - INFO - Incotex
+2025-01-20 10:23:23,559 - INFO - Received request for invoice processing.
+2025-01-20 10:23:23,559 - INFO - Request data: {'consideration': '16000', 'subtotal': 331.32800000000003, 'vat': '48.96', 'cds': '11.328', 'brokerage': '272', 'client': 'ERICK DICKSON MAKILAGI', 'district': 'LINDI CBD', 'region': 'LINDI', 'tin': 'TIN NO:123451212', 'cmsa': '22.4', 'dse': '22.4', 'fidelity': '3.2', 'order_number': 'ITFL/2024/7', 'total_fees': '380.288', 'trade_date': '2024-12-16'}
+2025-01-20 10:23:23,559 - INFO - Starting Excel file update process.
+2025-01-20 10:23:23,560 - INFO - Using template: invoice.xlsx
+2025-01-20 10:23:24,000 - INFO - Excel file updated successfully at: invoice.xlsx
+2025-01-20 10:23:24,001 - INFO - Printing the Excel file: invoice.xlsx
+2025-01-20 10:23:24,001 - INFO - Using specified printer: Incotex
+2025-01-20 10:23:24,726 - INFO - Excel file 'invoice.xlsx' sent to printer: Incotex
+2025-01-20 10:23:24,726 - INFO - Invoice processing completed successfully.
+2025-01-20 10:23:24,727 - INFO - 127.0.0.1 - - [20/Jan/2025 10:23:24] "POST /run-receipt-script HTTP/1.1" 200 -
+2025-01-20 10:42:09,726 - INFO -  * Detected change in 'D:\\efd-printer\\efd_print.py', reloading
+2025-01-20 10:42:09,816 - INFO -  * Restarting with stat
+2025-01-20 11:04:56,237 - INFO - Starting Flask server...
+2025-01-20 11:04:56,338 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:7860
+ * Running on http://10.10.102.23:7860
+2025-01-20 11:04:56,338 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-20 11:04:56,341 - INFO -  * Restarting with stat
+2025-01-20 11:04:57,647 - INFO - Starting Flask server...
+2025-01-20 11:04:57,698 - WARNING -  * Debugger is active!
+2025-01-20 11:04:57,704 - INFO -  * Debugger PIN: 813-101-750
+2025-01-20 11:05:20,179 - INFO - 127.0.0.1 - - [20/Jan/2025 11:05:20] "OPTIONS /run-receipt-script HTTP/1.1" 200 -
+2025-01-20 11:05:20,432 - INFO - Available Printers
+2025-01-20 11:05:20,432 - INFO - NPICBAE8E
+2025-01-20 11:05:20,432 - INFO - Incotex
+2025-01-20 11:05:20,432 - INFO - Received request for invoice processing.
+2025-01-20 11:05:20,432 - INFO - Request data: {'consideration': '2760720', 'subtotal': 57168.9898, 'vat': '8447.8032', 'cds': '1954.58976', 'brokerage': '46932.24', 'client': 'ERICK DICKSON MAKILAGI', 'district': 'LINDI CBD', 'region': 'LINDI', 'tin': 'TIN NO:123451212', 'cmsa': '3865.008', 'dse': '3865.008', 'fidelity': '552.144', 'order_number': 'ITFL/2024/5', 'total_fees': '65616.793', 'trade_date': '2024-12-16', 'printer_name': 'NPICBAE8E'}
+2025-01-20 11:05:20,432 - INFO - Starting Excel file update process.
+2025-01-20 11:05:20,432 - INFO - Using template: D:\efd-printer\invoice.xlsx
+2025-01-20 11:05:20,563 - INFO - Excel file updated successfully at: D:\efd-printer\invoice.xlsx
+2025-01-20 11:05:20,563 - INFO - Printing the Excel file: D:\efd-printer\invoice.xlsx
+2025-01-20 11:05:20,564 - INFO - Using specified printer: NPICBAE8E
+2025-01-20 11:05:20,799 - INFO - Excel file 'D:\efd-printer\invoice.xlsx' sent to printer: NPICBAE8E
+2025-01-20 11:05:20,799 - INFO - Invoice processing completed successfully.
+2025-01-20 11:05:20,800 - INFO - 127.0.0.1 - - [20/Jan/2025 11:05:20] "POST /run-receipt-script HTTP/1.1" 200 -
